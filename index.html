@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Ferramentas de Rede no PowerShell para Iniciantes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Guia Básico de Ferramentas de Rede no PowerShell</h1>
+        <p>Um guia detalhado para iniciantes sobre 30 comandos de rede no PowerShell, com explicações aprofundadas, exemplos de uso, saídas esperadas e referências.</p>
+    </header>
+
+    <nav>
+        <h2>Índice</h2>
+        <ul>
+            <li><a href="#introducao">Introdução</a></li>
+            <li><a href="#ferramentas">Ferramentas de Rede</a>
+                <ul>
+                    <li><a href="#ping">1. Ping</a></li>
+                    <li><a href="#test-connection">2. Test-Connection</a></li>
+                    <li><a href="#netstat">3. Netstat</a></li>
+                    <li><a href="#get-netadapter">4. Get-NetAdapter</a></li>
+                    <li><a href="#ipconfig">5. Ipconfig (Get-NetIPConfiguration)</a></li>
+                    <li><a href="#arp">6. Arp (Get-NetNeighbor)</a></li>
+                    <li><a href="#tracert">7. Tracert (Test-NetConnection)</a></li>
+                    <li><a href="#nslookup">8. Nslookup</a></li>
+                    <li><a href="#get-netipaddress">9. Get-NetIPAddress</a></li>
+                    <li><a href="#get-netroute">10. Get-NetRoute</a></li>
+                    <li><a href="#get-netfirewallrule">11. Get-NetFirewallRule</a></li>
+                    <li><a href="#get-netconnectionprofile">12. Get-NetConnectionProfile</a></li>
+                    <li><a href="#get-netadapteradvancedproperty">13. Get-NetAdapterAdvancedProperty</a></li>
+                    <li><a href="#get-netadapterchecksumoffload">14. Get-NetAdapterChecksumOffload</a></li>
+                    <li><a href="#get-netadapterrss">15. Get-NetAdapterRss</a></li>
+                    <li><a href="#get-dnsclient">16. Get-DnsClient</a></li>
+                    <li><a href="#get-dnsclientserveraddress">17. Get-DnsClientServerAddress</a></li>
+                    <li><a href="#resolve-dnsname">18. Resolve-DnsName</a></li>
+                    <li><a href="#get-netadapterpower">19. Get-NetAdapterPowerManagement</a></li>
+                    <li><a href="#get-netadaptersr-iov">20. Get-NetAdapterSriov</a></li>
+                    <li><a href="#get-netadapterrdma">21. Get-NetAdapterRdma</a></li>
+                    <li><a href="#get-netadapterbinding">22. Get-NetAdapterBinding</a></li>
+                    <li><a href="#get-netipinterface">23. Get-NetIPInterface</a></li>
+                    <li><a href="#get-netcompartment">24. Get-NetCompartment</a></li>
+                    <li><a href="#get-netoffloadglobalsetting">25. Get-NetOffloadGlobalSetting</a></li>
+                    <li><a href="#get-netadapterstatistics">26. Get-NetAdapterStatistics</a></li>
+                    <li><a href="#get-netadapterencapsulated">27. Get-NetAdapterEncapsulatedPacketTaskOffload</a></li>
+                    <li><a href="#get-netadapterhardwareinfo">28. Get-NetAdapterHardwareInfo</a></li>
+                    <li><a href="#get-netadapterqos">29. Get-NetAdapterQos</a></li>
+                    <li><a href="#get-netadaptervport">30. Get-NetAdapterVPort</a></li>
+                </ul>
+            </li>
+            <li><a href="#referencias">Referências</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="introducao">
+            <h2>Introdução</h2>
+            <p>Este guia é voltado para iniciantes que desejam aprender a usar o PowerShell para gerenciar e diagnosticar redes. Ele cobre 30 ferramentas e comandos, desde os tradicionais, como <code>ping</code> e <code>ipconfig</code>, até cmdlets modernos do PowerShell, como <code>Get-NetAdapter</code> e <code>Test-NetConnection</code>. Cada seção inclui uma explicação detalhada do conceito por trás do comando, exemplos práticos de uso, saídas esperadas e, quando aplicável, informações específicas sobre Wi-Fi ou placas de rede.</p>
+            <p>O PowerShell é uma ferramenta poderosa para administradores de sistemas, oferecendo maior flexibilidade e capacidade de automação em comparação com o Prompt de Comando (CMD). Este guia foca em comandos úteis para tarefas de rede, como verificar conectividade, configurar interfaces, monitorar tráfego e gerenciar configurações de Wi-Fi. As saídas fornecidas são exemplos simulados baseados em resultados típicos, ajudando a entender o que esperar ao executar cada comando.</p>
+        </section>
+
+        <section id="ferramentas">
+            <h2>Ferramentas de Rede</h2>
+
+            <article id="ping">
+                <h3>1. Ping</h3>
+                <p><strong>Conceito:</strong> O comando <code>ping</code> utiliza o protocolo ICMP (Internet Control Message Protocol) para testar a conectividade entre o computador local e um destino remoto (identificado por IP ou hostname). Ele envia pacotes Echo Request e aguarda respostas Echo Reply, medindo a latência (tempo de resposta) e verificando perdas de pacotes. É amplamente usado para diagnosticar problemas de conectividade, como verificar se um servidor está online ou se há falhas na rede. O comando é simples, mas não oferece muitas opções de personalização no CMD.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>ping google.com</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Pinging google.com [142.250.190.78] with 32 bytes of data:
+Reply from 142.250.190.78: bytes=32 time=25ms TTL=117
+Reply from 142.250.190.78: bytes=32 time=24ms TTL=117
+Reply from 142.250.190.78: bytes=32 time=26ms TTL=117
+Reply from 142.250.190.78: bytes=32 time=25ms TTL=117
+
+Ping statistics for 142.250.190.78:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 24ms, Maximum = 26ms, Average = 25ms
+                </code></pre>
+                <p><strong>Exemplo com parâmetros:</strong></p>
+                <pre><code>ping google.com -n 10</code></pre>
+                <p><strong>Explicação:</strong> O parâmetro <code>-n 10</code> especifica que 10 pacotes serão enviados, em vez dos 4 padrão, permitindo um teste mais prolongado.</p>
+            </article>
+
+            <article id="test-connection">
+                <h3>2. Test-Connection</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Test-Connection</code> é a versão PowerShell do <code>ping</code>, oferecendo maior flexibilidade e integração com pipelines. Ele também usa ICMP para testar conectividade, mas retorna objetos PowerShell, permitindo filtragem, formatação ou automação avançada. Pode especificar a interface de origem, testar múltiplos destinos simultaneamente e ajustar parâmetros como tamanho do pacote ou tempo de espera. É ideal para scripts de monitoramento de rede.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Test-Connection -ComputerName google.com -Count 4</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Source        Destination     IPV4Address      IPV6Address  Bytes    Time(ms)
+------        -----------     -----------      -----------  -----    --------
+DESKTOP-ABC   google.com      142.250.190.78                32       25
+DESKTOP-ABC   google.com      142.250.190.78                32       24
+DESKTOP-ABC   google.com      142.250.190.78                32       26
+DESKTOP-ABC   google.com      142.250.190.78                32       25
+                </code></pre>
+                <p><strong>Exemplo com Wi-Fi:</strong></p>
+                <pre><code>Test-Connection -ComputerName 192.168.1.1 -Source (Get-NetAdapter -Name "Wi-Fi").Name</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Source        Destination     IPV4Address      IPV6Address  Bytes    Time(ms)
+------        -----------     -----------      -----------  -----    --------
+Wi-Fi         192.168.1.1     192.168.1.1                   32       5
+Wi-Fi         192.168.1.1     192.168.1.1                   32       4
+Wi-Fi         192.168.1.1     192.168.1.1                   32       6
+Wi-Fi         192.168.1.1     192.168.1.1                   32       5
+                </code></pre>
+                <p><strong>Explicação:</strong> Testa a conectividade com o gateway local usando a interface Wi-Fi, útil para verificar a estabilidade da conexão sem fio.</p>
+            </article>
+
+            <article id="netstat">
+                <h3>3. Netstat</h3>
+                <p><strong>Conceito:</strong> O comando <code>netstat</code> exibe informações detalhadas sobre conexões de rede ativas, portas abertas, tabelas de roteamento e estatísticas de interface. Ele é útil para monitorar quais aplicativos estão usando a rede, identificar portas em uso e diagnosticar problemas de conectividade. No PowerShell, cmdlets como <code>Get-NetTCPConnection</code> oferecem funcionalidades semelhantes, com saídas estruturadas para automação.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>netstat -ano</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Active Connections
+
+  Proto  Local Address          Foreign Address        State           PID
+  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       896
+  TCP    192.168.1.100:49152    142.250.190.78:443     ESTABLISHED     4568
+  UDP    0.0.0.0:123            *:*                                    1024
+                </code></pre>
+                <p><strong>PowerShell alternativo:</strong></p>
+                <pre><code>Get-NetTCPConnection | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+LocalAddress    LocalPort RemoteAddress    RemotePort State
+------------    --------- -------------    ---------- -----
+192.168.1.100   49152     142.250.190.78   443        Established
+127.0.0.1       5357      0.0.0.0          0          Listen
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista conexões TCP ativas, útil para identificar tráfego de rede ou portas abertas.</p>
+            </article>
+
+            <article id="get-netadapter">
+                <h3>4. Get-NetAdapter</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapter</code> lista todas as placas de rede físicas e virtuais no sistema, incluindo adaptadores Wi-Fi, Ethernet e virtuais (como os usados em VPNs). Ele fornece informações como nome da interface, status (conectado/desconectado), endereço MAC, velocidade do link e tipo de mídia. É essencial para diagnosticar problemas de hardware de rede ou configurar interfaces específicas.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapter</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            InterfaceDescription                    ifIndex Status
+----            --------------------                    ------- ------
+Wi-Fi           Intel(R) Wireless-AC 9560               12      Up
+Ethernet        Realtek PCIe GbE Family Controller      8       Disconnected
+                </code></pre>
+                <p><strong>Exemplo Wi-Fi:</strong></p>
+                <pre><code>Get-NetAdapter -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            InterfaceDescription                    ifIndex Status
+----            --------------------                    ------- ------
+Wi-Fi           Intel(R) Wireless-AC 9560               12      Up
+                </code></pre>
+                <p><strong>Explicação:</strong> Exibe detalhes apenas da placa Wi-Fi, útil para verificar se está ativa.</p>
+            </article>
+
+            <article id="ipconfig">
+                <h3>5. Ipconfig (Get-NetIPConfiguration)</h3>
+                <p><strong>Conceito:</strong> O comando <code>ipconfig</code> exibe configurações de rede, como endereço IP, máscara de sub-rede, gateway padrão e servidores DNS. No PowerShell, <code>Get-NetIPConfiguration</code> é seu equivalente, oferecendo uma saída estruturada e mais fácil de manipular em scripts. É usado para verificar configurações de rede de todas as interfaces ou de uma específica, como Wi-Fi.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>ipconfig</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Windows IP Configuration
+
+   Wireless LAN adapter Wi-Fi:
+      Connection-specific DNS Suffix  . : home
+      IPv4 Address. . . . . . . . . . . : 192.168.1.100
+      Subnet Mask . . . . . . . . . . . : 255.255.255.0
+      Default Gateway . . . . . . . . . : 192.168.1.1
+                </code></pre>
+                <p><strong>PowerShell alternativo:</strong></p>
+                <pre><code>Get-NetIPConfiguration</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+InterfaceAlias       : Wi-Fi
+InterfaceIndex       : 12
+IPv4Address          : 192.168.1.100
+IPv4DefaultGateway   : 192.168.1.1
+DNSServer            : 8.8.8.8
+                </code></pre>
+                <p><strong>Exemplo Wi-Fi:</strong></p>
+                <pre><code>Get-NetIPConfiguration -InterfaceAlias "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+InterfaceAlias       : Wi-Fi
+InterfaceIndex       : 12
+IPv4Address          : 192.168.1.100
+IPv4DefaultGateway   : 192.168.1.1
+DNSServer            : 8.8.8.8
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra configurações de IP apenas para a interface Wi-Fi, útil para verificar a conectividade sem fio.</p>
+            </article>
+
+            <article id="arp">
+                <h3>6. Arp (Get-NetNeighbor)</h3>
+                <p><strong>Conceito:</strong> O comando <code>arp</code> gerencia a tabela ARP (Address Resolution Protocol), que mapeia endereços IP para endereços MAC na rede local. É usado para resolver endereços na camada de enlace (Layer 2) e pode ajudar a identificar dispositivos na mesma sub-rede. No PowerShell, <code>Get-NetNeighbor</code> fornece uma saída mais estruturada, ideal para automação.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>arp -a</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Interface: 192.168.1.100 --- 0xc
+  Internet Address      Physical Address      Type
+  192.168.1.1           00-14-22-01-23-45    dynamic
+  192.168.1.2           00-16-17-AB-CD-EF    dynamic
+                </code></pre>
+                <p><strong>PowerShell alternativo:</strong></p>
+                <pre><code>Get-NetNeighbor</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+IPAddress         PhysicalAddress      InterfaceAlias
+---------         ---------------      --------------
+192.168.1.1       00-14-22-01-23-45    Wi-Fi
+192.168.1.2       00-16-17-AB-CD-EF    Wi-Fi
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista dispositivos na rede local, úteis para troubleshooting de conectividade na sub-rede.</p>
+            </article>
+
+            <article id="tracert">
+                <h3>7. Tracert (Test-NetConnection)</h3>
+                <p><strong>Conceito:</strong> O comando <code>tracert</code> (traceroute) rastreia o caminho que os pacotes percorrem até um destino, mostrando cada roteador (salto) no trajeto e a latência associada. É útil para diagnosticar onde ocorrem atrasos ou falhas na rede. No PowerShell, <code>Test-NetConnection -TraceRoute</code> oferece funcionalidades semelhantes, com saída estruturada.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>tracert google.com</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Tracing route to google.com [142.250.190.78]
+over a maximum of 30 hops:
+
+  1     5 ms     4 ms     5 ms  192.168.1.1
+  2    10 ms    11 ms    10 ms  10.0.0.1
+  3    20 ms    21 ms    20 ms  172.16.0.1
+  4    25 ms    24 ms    25 ms  142.250.190.78
+
+Trace complete.
+                </code></pre>
+                <p><strong>PowerShell alternativo:</strong></p>
+                <pre><code>Test-NetConnection -ComputerName google.com -TraceRoute</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+ComputerName           : google.com
+RemoteAddress          : 142.250.190.78
+InterfaceAlias         : Wi-Fi
+SourceAddress          : 192.168.1.100
+PingSucceeded          : True
+TraceRoute             :
+    Hop 1: 192.168.1.1 (5ms)
+    Hop 2: 10.0.0.1 (10ms)
+    Hop 3: 172.16.0.1 (20ms)
+    Hop 4: 142.250.190.78 (25ms)
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra o trajeto até <code>google.com</code>, útil para identificar gargalos na rede.</p>
+            </article>
+
+            <article id="nslookup">
+                <h3>8. Nslookup</h3>
+                <p><strong>Conceito:</strong> O comando <code>nslookup</code> consulta servidores DNS para resolver nomes de domínio em endereços IP ou obter informações detalhadas, como registros MX (e-mail) ou NS (servidores de nomes). É essencial para diagnosticar problemas de resolução de nomes ou verificar configurações de DNS.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>nslookup google.com</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Server:  dns.google
+Address:  8.8.8.8
+
+Name:    google.com
+Address:  142.250.190.78
+                </code></pre>
+                <p><strong>Exemplo avançado:</strong></p>
+                <pre><code>nslookup -type=MX google.com</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Server:  dns.google
+Address:  8.8.8.8
+
+google.com    MX preference = 10, mail exchanger = smtp.google.com
+                </code></pre>
+                <p><strong>Explicação:</strong> Consulta registros MX para verificar servidores de e-mail associados a <code>google.com</code>.</p>
+            </article>
+
+            <article id="get-netipaddress">
+                <h3>9. Get-NetIPAddress</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetIPAddress</code> exibe os endereços IP (IPv4 e IPv6) associados às interfaces de rede, incluindo detalhes como prefixo, tipo de endereço (estático ou DHCP) e validade. É útil para verificar configurações de IP em interfaces específicas, como Wi-Fi, ou para automação em scripts.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetIPAddress -InterfaceAlias "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+IPAddress         : 192.168.1.100
+InterfaceAlias    : Wi-Fi
+AddressFamily     : IPv4
+Type              : Unicast
+PrefixLength      : 24
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra o endereço IP da interface Wi-Fi, útil para verificar configurações de rede.</p>
+            </article>
+
+            <article id="get-netroute">
+                <h3>10. Get-NetRoute</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetRoute</code> exibe a tabela de roteamento do sistema, que define como os pacotes são encaminhados para diferentes redes. Inclui informações como destino, gateway, métrica e interface usada. É essencial para diagnosticar problemas de roteamento ou configurar redes complexas.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetRoute</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+DestinationPrefix    NextHop         InterfaceAlias    Metric
+-----------------    -------         --------------    ------
+0.0.0.0/0            192.168.1.1     Wi-Fi             25
+192.168.1.0/24       0.0.0.0         Wi-Fi             0
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista rotas de rede, mostrando o gateway padrão usado pela interface Wi-Fi.</p>
+            </article>
+
+            <article id="get-netfirewallrule">
+                <h3>11. Get-NetFirewallRule</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetFirewallRule</code> lista as regras do firewall do Windows, incluindo informações sobre portas, protocolos, direção do tráfego (entrada/saída) e status (habilitado/desabilitado). É útil para verificar permissões de rede ou diagnosticar bloqueios de tráfego.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetFirewallRule -Enabled True</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name                  : HTTP-In
+DisplayName           : HTTP
+Enabled               : True
+Direction             : Inbound
+Action                : Allow
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista apenas as regras de firewall ativas, útil para verificar permissões de tráfego.</p>
+            </article>
+
+            <article id="get-netconnectionprofile">
+                <h3>12. Get-NetConnectionProfile</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetConnectionProfile</code> exibe o perfil de conexão de rede (Público, Privado ou Domínio), que determina as configurações de firewall aplicadas. É importante para garantir que a interface (como Wi-Fi) esteja configurada com o perfil correto para segurança e conectividade.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetConnectionProfile -InterfaceAlias "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name             : Network
+InterfaceAlias   : Wi-Fi
+NetworkCategory  : Private
+IPv4Connectivity : Internet
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra o perfil da conexão Wi-Fi, útil para ajustar configurações de firewall.</p>
+            </article>
+
+            <article id="get-netadapteradvancedproperty">
+                <h3>13. Get-NetAdapterAdvancedProperty</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterAdvancedProperty</code> exibe propriedades avançadas de uma placa de rede, como configurações de velocidade, duplex, VLAN ou opções específicas do driver. É útil para otimizar o desempenho da rede ou diagnosticar configurações incorretas.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterAdvancedProperty -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            DisplayName                DisplayValue
+----            -----------                ------------
+Wi-Fi           Speed & Duplex             Auto Negotiation
+Wi-Fi           Preferred Band             5 GHz
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista propriedades avançadas da placa Wi-Fi, como a banda preferida (2.4 GHz ou 5 GHz).</p>
+            </article>
+
+            <article id="get-netadapterchecksumoffload">
+                <h3>14. Get-NetAdapterChecksumOffload</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterChecksumOffload</code> verifica as configurações de descarregamento de checksum, que permitem à placa de rede processar verificações de integridade de pacotes, reduzindo a carga na CPU. É importante para redes de alta performance.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterChecksumOffload -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            TcpIPv4Checksum    UdpIPv4Checksum    TcpIPv6Checksum
+----            ---------------    ---------------    ---------------
+Wi-Fi           Enabled            Enabled            Enabled
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra se o descarregamento de checksum está ativo para a interface Wi-Fi.</p>
+            </article>
+
+            <article id="get-netadapterrss">
+                <h3>15. Get-NetAdapterRss</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterRss</code> exibe configurações de Receive Side Scaling (RSS), que distribui o processamento de pacotes de rede entre múltiplos núcleos da CPU. É útil para melhorar o desempenho em servidores ou dispositivos com alto tráfego de rede.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterRss -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            Enabled    NumberOfReceiveQueues
+----            -------    ---------------------
+Wi-Fi           True       2
+                </code></pre>
+                <p><strong>Explicação:</strong> Verifica se o RSS está habilitado na interface Wi-Fi, útil para otimização de desempenho.</p>
+            </article>
+
+            <article id="get-dnsclient">
+                <h3>16. Get-DnsClient</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-DnsClient</code> exibe configurações do cliente DNS, como sufixos de pesquisa e comportamento de resolução de nomes. É útil para verificar como o sistema resolve nomes de domínio em redes locais ou corporativas.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-DnsClient</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+InterfaceAlias    ConnectionSpecificSuffix
+--------------    ------------------------
+Wi-Fi             home
+Ethernet          company.local
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista sufixos DNS para todas as interfaces, úteis para configurar resolução de nomes.</p>
+            </article>
+
+            <article id="get-dnsclientserveraddress">
+                <h3>17. Get-DnsClientServerAddress</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-DnsClientServerAddress</code> mostra os endereços dos servidores DNS configurados para cada interface de rede. É essencial para verificar se o sistema está usando servidores DNS corretos, como os fornecidos pelo provedor ou públicos (ex.: 8.8.8.8).</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-DnsClientServerAddress -InterfaceAlias "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+InterfaceAlias    ServerAddresses
+--------------    ---------------
+Wi-Fi             {8.8.8.8, 8.8.4.4}
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra os servidores DNS configurados para a interface Wi-Fi.</p>
+            </article>
+
+            <article id="resolve-dnsname">
+                <h3>18. Resolve-DnsName</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Resolve-DnsName</code> é a alternativa PowerShell ao <code>nslookup</code>, permitindo consultas DNS detalhadas, como resolução de nomes, registros MX, TXT ou CNAME. Ele retorna objetos estruturados, ideais para automação e análise.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Resolve-DnsName google.com</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name             Type   TTL   Section    IPAddress
+----             ----   ---   -------    ---------
+google.com       A      300   Answer     142.250.190.78
+                </code></pre>
+                <p><strong>Explicação:</strong> Resolve o nome <code>google.com</code> em seu endereço IP.</p>
+            </article>
+
+            <article id="get-netadapterpower">
+                <h3>19. Get-NetAdapterPowerManagement</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterPowerManagement</code> exibe configurações de gerenciamento de energia da placa de rede, como opções de economia de energia ou wake-on-LAN. É útil para otimizar o consumo de energia ou garantir que a placa permaneça ativa em cenários críticos.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterPowerManagement -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            WakeOnLan    PowerSaving
+----            ---------    -----------
+Wi-Fi           Enabled      Enabled
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra configurações de energia da interface Wi-Fi, úteis para laptops.</p>
+            </article>
+
+            <article id="get-netadaptersr-iov">
+                <h3>20. Get-NetAdapterSriov</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterSriov</code> verifica o suporte a SR-IOV (Single Root I/O Virtualization), uma tecnologia que permite que uma placa de rede seja compartilhada diretamente com máquinas virtuais, melhorando o desempenho em ambientes virtualizados.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterSriov -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            SriovSupport
+----            ------------
+Wi-Fi           NotSupported
+                </code></pre>
+                <p><strong>Explicação:</strong> Verifica se a interface Wi-Fi suporta SR-IOV (geralmente não suportado em adaptadores Wi-Fi).</p>
+            </article>
+
+            <article id="get-netadapterrdma">
+                <h3>21. Get-NetAdapterRdma</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterRdma</code> verifica o suporte a RDMA (Remote Direct Memory Access), uma tecnologia que permite transferências de dados diretamente entre memórias de computadores, reduzindo a latência em redes de alta performance, como em data centers.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterRdma -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            RdmaEnabled
+----            -----------
+Wi-Fi           False
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra se RDMA está habilitado na interface Wi-Fi (geralmente não suportado).</p>
+            </article>
+
+            <article id="get-netadapterbinding">
+                <h3>22. Get-NetAdapterBinding</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterBinding</code> exibe os protocolos de rede vinculados a uma placa, como IPv4, IPv6 ou protocolos de virtualização. É útil para verificar se uma interface está configurada para usar os protocolos corretos.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterBinding -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            DisplayName            ComponentID    Enabled
+----            -----------            -----------    -------
+Wi-Fi           IPv4                   ms_tcpip       True
+Wi-Fi           IPv6                   ms_tcpip6      True
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista os protocolos ativos na interface Wi-Fi, como IPv4 e IPv6.</p>
+            </article>
+
+            <article id="get-netipinterface">
+                <h3>23. Get-NetIPInterface</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetIPInterface</code> exibe configurações de interface IP, como MTU (Maximum Transmission Unit), tipo de endereço (DHCP ou estático) e opções de encaminhamento. É útil para ajustar configurações de rede ou diagnosticar problemas de conectividade.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetIPInterface -InterfaceAlias "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+InterfaceAlias    AddressFamily    Dhcp    Mtu
+--------------    -------------    ----    ---
+Wi-Fi             IPv4             Enabled 1500
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra configurações IP da interface Wi-Fi, como uso de DHCP e tamanho do MTU.</p>
+            </article>
+
+            <article id="get-netcompartment">
+                <h3>24. Get-NetCompartment</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetCompartment</code> lista os compartimentos de rede, que são usados para isolar configurações de rede em sistemas com múltiplos contextos (ex.: contêineres ou VPNs). Cada compartimento tem um ID único e configurações específicas.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetCompartment</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+CompartmentId    CompartmentDescription
+-------------    ----------------------
+1                Default Compartment
+                </code></pre>
+                <p><strong>Explicação:</strong> Lista compartimentos de rede, úteis em sistemas complexos com virtualização.</p>
+            </article>
+
+            <article id="get-netoffloadglobalsetting">
+                <h3>25. Get-NetOffloadGlobalSetting</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetOffloadGlobalSetting</code> exibe configurações globais de descarregamento de rede, como checksum, RSS e LSO (Large Send Offload). Essas configurações afetam todas as placas de rede e são usadas para otimizar o desempenho.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetOffloadGlobalSetting</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+ReceiveSideScaling    : Enabled
+LargeSendOffload      : Enabled
+ChecksumOffload       : Enabled
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra configurações globais de descarregamento, úteis para otimização de desempenho.</p>
+            </article>
+
+            <article id="get-netadapterstatistics">
+                <h3>26. Get-NetAdapterStatistics</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterStatistics</code> exibe estatísticas de tráfego de uma placa de rede, como pacotes enviados, recebidos, erros e descartes. É útil para monitorar o desempenho da rede ou diagnosticar problemas de tráfego.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterStatistics -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            ReceivedBytes    SentBytes    Errors
+----            -------------    ---------    ------
+Wi-Fi           123456789        98765432     0
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra estatísticas de tráfego da interface Wi-Fi, útil para monitoramento.</p>
+            </article>
+
+            <article id="get-netadapterencapsulated">
+                <h3>27. Get-NetAdapterEncapsulatedPacketTaskOffload</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterEncapsulatedPacketTaskOffload</code> verifica configurações de descarregamento de pacotes encapsulados, usados em túneis de rede como VXLAN ou GRE. Isso reduz a carga na CPU ao processar pacotes encapsulados.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterEncapsulatedPacketTaskOffload -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            VxlanOffload    GreOffload
+----            ------------    ----------
+Wi-Fi           NotSupported    NotSupported
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra se a interface Wi-Fi suporta descarregamento de pacotes encapsulados.</p>
+            </article>
+
+            <article id="get-netadapterhardwareinfo">
+                <h3>28. Get-NetAdapterHardwareInfo</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterHardwareInfo</code> fornece detalhes de hardware da placa de rede, como slot PCI, versão do driver e informações do fabricante. É útil para verificar compatibilidade ou diagnosticar problemas de hardware.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterHardwareInfo -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            SlotNumber    DriverVersion
+----            ----------    -------------
+Wi-Fi           0             20.70.0.5
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra informações de hardware da interface Wi-Fi, como a versão do driver.</p>
+            </article>
+
+            <article id="get-netadapterqos">
+                <h3>29. Get-NetAdapterQos</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterQos</code> exibe configurações de Qualidade de Serviço (QoS), que controlam a priorização de tráfego de rede. É usado para garantir que tipos específicos de tráfego (ex.: VoIP) tenham prioridade em redes congestionadas.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterQos -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            Enabled    DefaultPriority
+----            -------    ---------------
+Wi-Fi           True       3
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra configurações QoS da interface Wi-Fi, úteis para otimização de tráfego.</p>
+            </article>
+
+            <article id="get-netadaptervport">
+                <h3>30. Get-NetAdapterVPort</h3>
+                <p><strong>Conceito:</strong> O cmdlet <code>Get-NetAdapterVPort</code> exibe configurações de portas virtuais, usadas em ambientes de virtualização para conectar máquinas virtuais a redes físicas. É relevante em cenários de servidores com Hyper-V ou outras tecnologias de virtualização.</p>
+                <p><strong>Exemplo:</strong></p>
+                <pre><code>Get-NetAdapterVPort -Name "Wi-Fi"</code></pre>
+                <p><strong>Exemplo de Saída:</strong></p>
+                <pre><code>
+Name            VPortId    Enabled
+----            -------    -------
+Wi-Fi           None       False
+                </code></pre>
+                <p><strong>Explicação:</strong> Mostra se portas virtuais estão configuradas na interface Wi-Fi (geralmente não aplicável).</p>
+            </article>
+        </section>
+
+        <section id="referencias">
+            <h2>Referências</h2>
+            <ul>
+                <li><a href="https://docs.microsoft.com/powershell/module/netadapter/" target="_blank">Documentação do PowerShell: Módulo NetAdapter</a></li>
+                <li><a href="https://docs.microsoft.com/powershell/module/dnsclient/" target="_blank">Documentação do PowerShell: Módulo DnsClient</a></li>
+                <li><a href="https://docs.microsoft.com/powershell/module/nettcpip/" target="_blank">Documentação do PowerShell: Módulo NetTCPIP</a></li>
+                <li><a href="https://learn.microsoft.com/en-us/windows-server/networking/technologies/network-subsystem/net-sub-performance-tuning-nics" target="_blank">Microsoft: Ajuste de Desempenho de Rede</a></li>
+                <li><a href="https://www.powershellgallery.com/" target="_blank">PowerShell Gallery</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 - Guia de Ferramentas de Rede no PowerShell. Criado com base em documentações oficiais da Microsoft.</p>
+    </footer>
+</body>
+</html>
